@@ -217,7 +217,10 @@ class TTPM(BaseLearner):
         """
         self._get_effect_tensor_decays()
         # Initialize the adjacency matrix
-        edge_mat = self._fctopo
+        if np.shape(self._fctopo)[0] > 0:
+            edge_mat = self._fctopo
+        else:
+            edge_mat = np.eye(self._N, self._N)
         result = self._em(edge_mat)
         l_ret = result[0]
         
