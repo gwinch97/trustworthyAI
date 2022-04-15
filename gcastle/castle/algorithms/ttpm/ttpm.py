@@ -69,7 +69,7 @@ class TTPM(BaseLearner):
     >>> ret_metrix.metrics
     """
 
-    def __init__(self, topology_matrix, delta=0.1, epsilon=1,
+    def __init__(self, topology_matrix, func_matrix, delta=0.1, epsilon=1,
                  max_hop=0, penalty='BIC', max_iter=20):
         BaseLearner.__init__(self)
         assert isinstance(topology_matrix, np.ndarray),\
@@ -86,6 +86,7 @@ class TTPM(BaseLearner):
         self._max_hop = max_hop
         self._epsilon = epsilon
         self._max_iter = max_iter
+        self._fctopo = func_matrix
 
     def learn(self, tensor, *args, **kwargs):
         """
@@ -216,7 +217,7 @@ class TTPM(BaseLearner):
         """
         self._get_effect_tensor_decays()
         # Initialize the adjacency matrix
-        edge_mat = np.eye(self._N, self._N)
+        edge_mat = self._fctopo
         result = self._em(edge_mat)
         l_ret = result[0]
         
